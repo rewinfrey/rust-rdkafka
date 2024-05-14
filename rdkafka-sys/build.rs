@@ -83,6 +83,11 @@ fn main() {
             eprintln!("Setting up submodules");
             run_command_or_fail("../", "git", &["submodule", "update", "--init"]);
         }
+        // Get the env var PKG_CONFIG_PATH:
+        let pkg_config_path = env::var("PKG_CONFIG_PATH").unwrap_or_default();
+        // Display pkg_config_path:
+        eprintln!("PKG_CONFIG_PATH: {}", pkg_config_path);
+
         eprintln!("Building and linking librdkafka statically");
         build_librdkafka();
     }
