@@ -171,6 +171,7 @@ fn build_librdkafka() {
     env::set_var("LDFLAGS", ldflags.join(" "));
 
     if env::var("PKG_CONFIG_PATH").is_ok() {
+        eprintln!("exporting PKG_CONFIG_PATH");
         env::set_var("PKG_CONFIG_PATH", env::var("PKG_CONFIG_PATH").unwrap());
     }
 
@@ -183,14 +184,14 @@ fn build_librdkafka() {
         // OUT_DIR, and build inside of *that* tree.
         //
         // https://github.com/edenhill/mklove/issues/17
-        println!("Cloning librdkafka");
+        eprintln!("Cloning librdkafka");
         run_command_or_fail(".", "cp", &["-a", "librdkafka/.", &out_dir]);
     }
 
-    println!("Configuring librdkafka");
+    eprintln!("Configuring librdkafka");
     run_command_or_fail(&out_dir, "./configure", configure_flags.as_slice());
 
-    println!("Compiling librdkafka");
+    eprintln!("Compiling librdkafka");
     if let Some(makeflags) = env::var_os("CARGO_MAKEFLAGS") {
         env::set_var("MAKEFLAGS", makeflags);
     }
