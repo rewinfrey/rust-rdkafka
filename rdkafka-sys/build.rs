@@ -170,6 +170,10 @@ fn build_librdkafka() {
     env::set_var("CFLAGS", cflags.join(" "));
     env::set_var("LDFLAGS", ldflags.join(" "));
 
+    if env::var("PKG_CONFIG_PATH").is_ok() {
+        env::set_var("PKG_CONFIG_PATH", env::var("PKG_CONFIG_PATH").unwrap());
+    }
+
     let out_dir = env::var("OUT_DIR").expect("OUT_DIR missing");
 
     if !Path::new(&out_dir).join("LICENSE").exists() {
